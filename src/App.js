@@ -21,17 +21,14 @@ class App extends Component {
     things: {}
   }
 
-  thing() {
-    return {
-      id: `thing-${Date.now()}`,
-      name: '',
-    }
-  }
+  thingCounter = 0
 
-  addThing = () => {
+
+  addThing = (ev) => {
+    ev.preventDefault()
+    const id = this.thingCounter++
     const things = {...this.state.things}
-    const thing = this.thing()
-    things[thing.id] = thing
+    things[id] = {id, name : "", status : false}
     this.setState({ things })
   }
 
@@ -47,11 +44,18 @@ class App extends Component {
     this.setState({ things })
   }
 
+  complete = (thing) => {
+    const things = {...this.state.things}
+    things[thing.id].checked = !things[thing.id].checked
+    this.setState({ things })
+  }
+
   render() {
     const actions = {
       saveThing: this.saveThing,
       removeThing: this.removeThing,
     }
+  
 
     return (
       <div className="App">
@@ -65,5 +69,5 @@ class App extends Component {
     );
   }
 }
-
 export default App;
+  
